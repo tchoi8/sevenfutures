@@ -1,6 +1,7 @@
 #include <Servo.h> 
 
 long randNumber;
+long randNumber2;
 const int analogInPin = A0;    
 
 class Windchime
@@ -34,9 +35,14 @@ public:
   
   void Update(int chime, int interval, int steps)
   {
-        updateInterval = interval;
-    increment = steps;
-      
+    updateInterval = interval;
+      randNumber = random(5000,13000); 
+     increment = random(randNumber2, 30);
+          //increment = steps;
+     
+       Serial.print(" random  = " );
+     Serial.println(randNumber);
+            
     if((millis() - lastUpdate) > updateInterval)  // time to update
     {      
      Serial.print("windchime number = " );
@@ -49,12 +55,14 @@ public:
      servo.write(pos);
      Serial.print(" position  = " );
      Serial.println(pos);
-       
+     
 
-     while (pos >= 80) // swing the wind chime back 
+     while (pos >= 50) // swing the wind chime back 
       {
+           delay(randNumber);
+
         lastUpdate = millis();
-        pos -= (80);
+        pos = (20);
         servo.write(pos);
       
         Serial.print("windchime number = " );
@@ -62,7 +70,7 @@ public:
          Serial.print("\t"); 
         Serial.print("return position " );
         Serial.println(pos);
-     
+        
       }   
     }
   }
@@ -70,7 +78,7 @@ public:
  
 Windchime windchime1(100,1);
 Windchime windchime2(100,1);
-Windchime windchime3(100,1);
+ Windchime windchime3(100,1);
 Windchime windchime4(100,1);
 Windchime windchime5(100,1);
 Windchime windchime6(100,1);
@@ -78,12 +86,10 @@ Windchime windchime6(100,1);
  
 void setup() 
 { 
-  Serial.begin(9600);
-  
-   randomSeed(analogRead(A1)); 
+  Serial.begin(9600); 
    windchime1.Attach(2);
    windchime2.Attach(3);
-   windchime3.Attach(4);
+  windchime3.Attach(4);
    windchime4.Attach(5);
    windchime5.Attach(6);
    windchime6.Attach(7);
@@ -92,13 +98,10 @@ void setup()
  
 void loop() 
 { 
-    windchime1.Update(1, 100, 1);
-   windchime2.Update(2, 100, 1); 
-    windchime3.Update(3, 100, 3);
-     windchime4.Update(4, 500, 4);
-      windchime5.Update(5, 500,5);
-     windchime6.Update(6, 600, 6);
- 
- 
-   
+    windchime1.Update(1, 100, 5);
+    windchime2.Update(2, 100, 25); 
+    windchime3.Update(3, 100, 40);
+    windchime4.Update(4, 100, 25);
+    windchime5.Update(5, 100, 25);
+    windchime6.Update(6, 100, 30); 
  }
